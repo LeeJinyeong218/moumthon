@@ -30,7 +30,7 @@ function Input({ label, hint, error, id, className, ...props }: InputProps) {
         </Field.Description>
       )}
       {error && (
-        <Field.Error className="text-xs text-destructive" forceShow>
+        <Field.Error className="text-xs text-destructive">
           {error}
         </Field.Error>
       )}
