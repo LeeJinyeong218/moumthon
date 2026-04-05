@@ -1,0 +1,72 @@
+[
+  {
+    "notificationId": "NOTIF-001",
+    "userId": "U-002",
+    "type": "hackathon_upcoming",
+    "isRead": false,
+    "createdAt": "2026-03-28T10:00:00+09:00",
+    "title": "해커톤 접수 마감 D-2",
+    "body": "긴급 인수인계 해커톤 기획서 제출 마감이 이틀 남았습니다.",
+    "linkUrl": "/hackathons/daker-handover-2026-03#submit",
+    "relatedEntity": {
+      "type": "hackathon",
+      "slug": "daker-handover-2026-03"
+    }
+  },
+  {
+    "notificationId": "NOTIF-002",
+    "userId": "U-002",
+    "type": "leaderboard_updated",
+    "isRead": false,
+    "createdAt": "2026-04-17T10:05:00+09:00",
+    "title": "리더보드 업데이트",
+    "body": "404found 팀이 1위를 기록했습니다! 투표 결과가 반영되었습니다.",
+    "linkUrl": "/hackathons/daker-handover-2026-03#leaderboard",
+    "relatedEntity": {
+      "type": "hackathon",
+      "slug": "daker-handover-2026-03"
+    }
+  },
+  {
+    "notificationId": "NOTIF-003",
+    "userId": "U-002",
+    "type": "team_member_joined",
+    "isRead": true,
+    "createdAt": "2026-03-06T10:05:00+09:00",
+    "title": "새 팀원이 합류했습니다",
+    "body": "정다나 님이 404found 팀에 합류했습니다.",
+    "linkUrl": "/camp?hackathon=daker-handover-2026-03",
+    "relatedEntity": {
+      "type": "team",
+      "teamCode": "T-HANDOVER-01"
+    }
+  },
+  {
+    "notificationId": "NOTIF-004",
+    "userId": "U-002",
+    "type": "submission_scored",
+    "isRead": true,
+    "createdAt": "2026-04-17T10:01:00+09:00",
+    "title": "제출물 채점 완료",
+    "body": "SUB-H01-PDF 제출물 채점이 완료되었습니다. 점수: 87.5",
+    "linkUrl": "/hackathons/daker-handover-2026-03#leaderboard",
+    "relatedEntity": {
+      "type": "submission",
+      "submissionId": "SUB-H01-PDF"
+    }
+  },
+  {
+    "notificationId": "NOTIF-005",
+    "userId": "U-002",
+    "type": "hackathon_new",
+    "isRead": true,
+    "createdAt": "2026-03-03T09:00:00+09:00",
+    "title": "새 해커톤이 오픈되었습니다",
+    "body": "긴급 인수인계 해커톤이 공개되었습니다. 지금 바로 신청하세요!",
+    "linkUrl": "/hackathons/daker-handover-2026-03",
+    "relatedEntity": {
+      "type": "hackathon",
+      "slug": "daker-handover-2026-03"
+    }
+  }
+]

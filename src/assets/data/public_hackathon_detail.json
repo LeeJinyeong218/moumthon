@@ -195,6 +195,79 @@
           "note": "아이디어 해커톤의 점수(score)는 투표 결과를 기반으로 표시됩니다."
         }
       }
+    },
+    {
+      "slug": "monthly-vibe-coding-2026-02",
+      "title": "월간 해커톤 : 바이브 코딩 개선 AI 아이디어 공모전 (2026.02)",
+      "sections": {
+        "overview": {
+          "summary": "AI 기반 바이브 코딩 워크플로우를 개선하는 아이디어를 제안하고 프로토타입을 구현합니다.",
+          "teamPolicy": {
+            "allowSolo": true,
+            "maxTeamSize": 4
+          }
+        },
+        "info": {
+          "notice": [
+            "아이디어의 독창성과 실현 가능성을 함께 평가합니다.",
+            "프로토타입은 데모 영상 또는 배포 링크로 제출 가능합니다."
+          ],
+          "links": {
+            "rules": "https://example.com/public/rules/vibe202602",
+            "faq": "https://example.com/public/faq/vibe202602"
+          }
+        },
+        "eval": {
+          "metricName": "FinalScore",
+          "description": "아이디어 독창성, 구현 완성도, 발표 품질을 종합 평가합니다.",
+          "scoreSource": "vote",
+          "scoreDisplay": {
+            "label": "투표 점수",
+            "breakdown": [
+              { "key": "originality", "label": "독창성", "weightPercent": 40 },
+              { "key": "implementation", "label": "구현 완성도", "weightPercent": 40 },
+              { "key": "presentation", "label": "발표", "weightPercent": 20 }
+            ]
+          }
+        },
+        "schedule": {
+          "timezone": "Asia/Seoul",
+          "milestones": [
+            { "name": "접수 시작", "at": "2026-02-10T10:00:00+09:00" },
+            { "name": "아이디어 제안서 제출 마감", "at": "2026-02-24T23:59:00+09:00" },
+            { "name": "프로토타입 제출 마감", "at": "2026-03-03T10:00:00+09:00" },
+            { "name": "투표 평가 마감", "at": "2026-03-07T23:59:00+09:00" },
+            { "name": "최종 결과 발표", "at": "2026-03-09T10:00:00+09:00" }
+          ]
+        },
+        "prize": {
+          "items": [
+            { "place": "1st", "amountKRW": 1000000 },
+            { "place": "2nd", "amountKRW": 500000 },
+            { "place": "3rd", "amountKRW": 300000 }
+          ]
+        },
+        "teams": {
+          "campEnabled": true,
+          "listUrl": "/camp?hackathon=monthly-vibe-coding-2026-02"
+        },
+        "submit": {
+          "allowedArtifactTypes": ["text", "url"],
+          "submissionUrl": "/hackathons/monthly-vibe-coding-2026-02#submit",
+          "guide": [
+            "아이디어 제안서를 텍스트로 작성하거나 URL로 제출합니다.",
+            "프로토타입은 배포 URL 또는 데모 영상 링크로 제출합니다."
+          ],
+          "submissionItems": [
+            { "key": "idea", "title": "아이디어 제안서", "format": "text_or_url" },
+            { "key": "prototype", "title": "프로토타입 제출", "format": "url" }
+          ]
+        },
+        "leaderboard": {
+          "publicLeaderboardUrl": "/hackathons/monthly-vibe-coding-2026-02#leaderboard",
+          "note": "투표 결과를 기반으로 점수가 표시됩니다."
+        }
+      }
     }
   ]
 }

@@ -1,0 +1,52 @@
+[
+  {
+    "_comment": "현재 로그인한 유저(U-002 김민수) 기준의 세션 데이터입니다. localStorage에 저장하거나 전역 상태로 관리합니다.",
+    "userId": "U-002",
+    "username": "minsu_dev",
+    "displayName": "김민수",
+    "avatarUrl": "https://example.com/public/avatars/U-002.png",
+    "role": "user",
+    "bookmarkedHackathons": [
+      "daker-handover-2026-03",
+      "monthly-vibe-coding-2026-02"
+    ],
+    "myTeams": [
+      {
+        "hackathonSlug": "monthly-vibe-coding-2026-02",
+        "teamCode": "T-BETA",
+        "teamName": "PromptRunners",
+        "role": "leader"
+      },
+      {
+        "hackathonSlug": "daker-handover-2026-03",
+        "teamCode": "T-HANDOVER-01",
+        "teamName": "404found",
+        "role": "leader"
+      }
+    ],
+    "mySubmissions": [
+      {
+        "hackathonSlug": "daker-handover-2026-03",
+        "teamCode": "T-HANDOVER-01",
+        "latestSubmissionId": "SUB-H01-PDF",
+        "latestScore": 87.5
+      }
+    ],
+    "joinRequests": [],
+    "receivedInvites": [
+      {
+        "inviteId": "INV-001",
+        "hackathonSlug": "aimers-8-model-lite",
+        "teamCode": "T-ALPHA",
+        "teamName": "Team Alpha",
+        "fromDisplayName": "Team Alpha 팀장",
+        "status": "pending",
+        "invitedAt": "2026-02-19T09:00:00+09:00"
+      }
+    ],
+    "notifications": {
+      "unreadCount": 2,
+      "listUrl": "/my/notifications"
+    }
+  }
+]

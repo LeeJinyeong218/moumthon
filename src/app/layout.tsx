@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { DataSeeder } from "@/components/common/DataSeeder";
 import "./globals.css";
 import { Agentation } from "agentation";
+import { Header } from "@/components/common";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
+      <body className="pt-14">
         {process.env.NODE_ENV === "development" && <Agentation />}
         <DataSeeder />
+        <Header /> 
         {children}
       </body>
     </html>

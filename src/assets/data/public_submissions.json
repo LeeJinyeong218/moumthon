@@ -1,0 +1,129 @@
+[
+  {
+    "hackathonSlug": "aimers-8-model-lite",
+    "teamCode": "T-ALPHA",
+    "teamName": "Team Alpha",
+    "submissions": [
+      {
+        "submissionId": "SUB-ALPHA-001",
+        "submittedAt": "2026-02-22T18:30:00+09:00",
+        "artifactType": "zip",
+        "artifactUrl": "https://example.com/submissions/SUB-ALPHA-001.zip",
+        "score": 0.6812,
+        "status": "scored",
+        "note": "기본 베이스라인"
+      },
+      {
+        "submissionId": "SUB-ALPHA-002",
+        "submittedAt": "2026-02-23T21:05:00+09:00",
+        "artifactType": "zip",
+        "artifactUrl": "https://example.com/submissions/SUB-ALPHA-002.zip",
+        "score": 0.7103,
+        "status": "scored",
+        "note": "INT4 양자화 적용"
+      },
+      {
+        "submissionId": "SUB-ALPHA-003",
+        "submittedAt": "2026-02-24T21:05:00+09:00",
+        "artifactType": "zip",
+        "artifactUrl": "https://example.com/submissions/SUB-ALPHA-003.zip",
+        "score": 0.7421,
+        "status": "scored",
+        "note": "구조적 프루닝 + INT4",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "hackathonSlug": "aimers-8-model-lite",
+    "teamCode": "T-GAMMA",
+    "teamName": "Team Gamma",
+    "submissions": [
+      {
+        "submissionId": "SUB-GAMMA-001",
+        "submittedAt": "2026-02-23T15:00:00+09:00",
+        "artifactType": "zip",
+        "artifactUrl": "https://example.com/submissions/SUB-GAMMA-001.zip",
+        "score": 0.6934,
+        "status": "scored",
+        "note": "Knowledge Distillation 시도"
+      },
+      {
+        "submissionId": "SUB-GAMMA-002",
+        "submittedAt": "2026-02-25T09:40:00+09:00",
+        "artifactType": "zip",
+        "artifactUrl": "https://example.com/submissions/SUB-GAMMA-002.zip",
+        "score": 0.7013,
+        "status": "scored",
+        "note": "레이어 드롭 + 蒸留",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "hackathonSlug": "daker-handover-2026-03",
+    "teamCode": "T-HANDOVER-01",
+    "teamName": "404found",
+    "submissions": [
+      {
+        "submissionId": "SUB-H01-PLAN",
+        "submittedAt": "2026-03-10T11:20:00+09:00",
+        "artifactType": "text",
+        "artifactContent": "404found 기획서 — 명세서 기반 Todo + 칸반 보드 웹앱 구현. Next.js + Vercel 배포. localStorage 기반 데이터 관리.",
+        "status": "received",
+        "note": "기획서 1차 제출"
+      },
+      {
+        "submissionId": "SUB-H01-WEB",
+        "submittedAt": "2026-04-06T09:58:00+09:00",
+        "artifactType": "url",
+        "artifactUrl": "https://404found.vercel.app",
+        "status": "received",
+        "note": "최종 웹링크 제출"
+      },
+      {
+        "submissionId": "SUB-H01-PDF",
+        "submittedAt": "2026-04-13T09:58:00+09:00",
+        "artifactType": "pdf",
+        "artifactUrl": "https://example.com/404found-solution.pdf",
+        "score": 87.5,
+        "status": "scored",
+        "note": "최종 솔루션 PDF",
+        "isBest": true
+      }
+    ]
+  },
+  {
+    "hackathonSlug": "daker-handover-2026-03",
+    "teamCode": "T-HANDOVER-02",
+    "teamName": "LGTM",
+    "submissions": [
+      {
+        "submissionId": "SUB-H02-PLAN",
+        "submittedAt": "2026-03-12T09:10:00+09:00",
+        "artifactType": "text",
+        "artifactContent": "LGTM 기획서 — 명세서를 그대로 구현한 뒤 PR 리뷰 시뮬레이션 기능 추가. SvelteKit + Vercel.",
+        "status": "received",
+        "note": "기획서 1차 제출"
+      },
+      {
+        "submissionId": "SUB-H02-WEB",
+        "submittedAt": "2026-04-05T22:30:00+09:00",
+        "artifactType": "url",
+        "artifactUrl": "https://lgtm-hack.vercel.app",
+        "status": "received",
+        "note": "최종 웹링크 제출"
+      },
+      {
+        "submissionId": "SUB-H02-PDF",
+        "submittedAt": "2026-04-13T09:40:00+09:00",
+        "artifactType": "pdf",
+        "artifactUrl": "https://example.com/lgtm-solution.pdf",
+        "score": 84.2,
+        "status": "scored",
+        "note": "최종 솔루션 PDF",
+        "isBest": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "teamCode": "T-ALPHA",
+    "hackathonSlug": "aimers-8-model-lite",
+    "members": [
+      {
+        "userId": "U-004",
+        "displayName": "최성우",
+        "avatarUrl": "https://example.com/public/avatars/U-004.png",
+        "role": "leader",
+        "joinedAt": "2026-02-20T11:00:00+09:00"
+      },
+      {
+        "userId": "U-001",
+        "displayName": "박지연",
+        "avatarUrl": "https://example.com/public/avatars/U-001.png",
+        "role": "member",
+        "joinedAt": "2026-02-20T13:00:00+09:00"
+      },
+      {
+        "userId": "U-002",
+        "displayName": "김민수",
+        "avatarUrl": "https://example.com/public/avatars/U-002.png",
+        "role": "member",
+        "joinedAt": "2026-02-21T09:30:00+09:00"
+      }
+    ]
+  },
+  {
+    "teamCode": "T-BETA",
+    "hackathonSlug": "monthly-vibe-coding-2026-02",
+    "members": [
+      {
+        "userId": "U-002",
+        "displayName": "김민수",
+        "avatarUrl": "https://example.com/public/avatars/U-002.png",
+        "role": "leader",
+        "joinedAt": "2026-02-18T18:30:00+09:00"
+      }
+    ]
+  },
+  {
+    "teamCode": "T-HANDOVER-01",
+    "hackathonSlug": "daker-handover-2026-03",
+    "members": [
+      {
+        "userId": "U-002",
+        "displayName": "김민수",
+        "avatarUrl": "https://example.com/public/avatars/U-002.png",
+        "role": "leader",
+        "joinedAt": "2026-03-04T11:00:00+09:00"
+      },
+      {
+        "userId": "U-003",
+        "displayName": "이해린",
+        "avatarUrl": "https://example.com/public/avatars/U-003.png",
+        "role": "member",
+        "joinedAt": "2026-03-05T14:00:00+09:00"
+      },
+      {
+        "userId": "U-005",
+        "displayName": "정다나",
+        "avatarUrl": "https://example.com/public/avatars/U-005.png",
+        "role": "member",
+        "joinedAt": "2026-03-06T10:00:00+09:00"
+      }
+    ]
+  },
+  {
+    "teamCode": "T-HANDOVER-02",
+    "hackathonSlug": "daker-handover-2026-03",
+    "members": [
+      {
+        "userId": "U-004",
+        "displayName": "최성우",
+        "avatarUrl": "https://example.com/public/avatars/U-004.png",
+        "role": "leader",
+        "joinedAt": "2026-03-05T09:20:00+09:00"
+      },
+      {
+        "userId": "U-001",
+        "displayName": "박지연",
+        "avatarUrl": "https://example.com/public/avatars/U-001.png",
+        "role": "member",
+        "joinedAt": "2026-03-05T11:00:00+09:00"
+      },
+      {
+        "userId": "U-002",
+        "displayName": "김민수",
+        "avatarUrl": "https://example.com/public/avatars/U-002.png",
+        "role": "member",
+        "joinedAt": "2026-03-06T09:00:00+09:00"
+      },
+      {
+        "userId": "U-003",
+        "displayName": "이해린",
+        "avatarUrl": "https://example.com/public/avatars/U-003.png",
+        "role": "member",
+        "joinedAt": "2026-03-06T10:30:00+09:00"
+      },
+      {
+        "userId": "U-005",
+        "displayName": "정다나",
+        "avatarUrl": "https://example.com/public/avatars/U-005.png",
+        "role": "member",
+        "joinedAt": "2026-03-07T09:00:00+09:00"
+      }
+    ]
+  }
+]

@@ -98,6 +98,11 @@ export function createLocalStore<T extends Record<string, unknown>>(
       return ok(null)
     },
 
+    /** 전체 목록을 한 번에 교체 — 개별 update 루프 대신 사용 */
+    setAll(items: T[]): void {
+      writeRaw(key, items)
+    },
+
     /** 초기 데이터 seeding — 이미 데이터가 있으면 skip */
     seed(initial: T[]): void {
       if (readRaw<T>(key).length === 0) {

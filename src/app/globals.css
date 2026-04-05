@@ -137,6 +137,34 @@
 }
 
 /* ============================================================
+   SCROLLBAR
+   ============================================================ */
+.scroll-overlay {
+  overflow-y: auto;
+  /* Float scrollbar on top of content — no layout shift */
+  overflow-y: overlay; /* stylelint-disable-line */
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.75 0 0 / 0.35) transparent;
+}
+
+.scroll-overlay::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll-overlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-overlay::-webkit-scrollbar-thumb {
+  background: oklch(0.75 0 0 / 0.35);
+  border-radius: 9999px;
+}
+
+.scroll-overlay::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0 0 / 0.55);
+}
+
+/* ============================================================
    BASE RESET
    ============================================================ */
 @layer base {

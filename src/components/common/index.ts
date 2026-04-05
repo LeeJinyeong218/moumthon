@@ -3,3 +3,5 @@ export { Card, CardHeader, CardTitle, CardDescription, CardAction, CardContent, 
 export { Badge, badgeVariants } from "./Badge"
 export { Avatar, AvatarGroup, AvatarGroupCount, AvatarBadge } from "./Avatar"
 export { Input } from "./Input"
+export { Header } from "./Header/Header"
+export { RankBadge } from "./RankBadge"
