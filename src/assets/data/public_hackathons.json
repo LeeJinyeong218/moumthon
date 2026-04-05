@@ -8,7 +8,7 @@
       "Compression",
       "vLLM"
     ],
-    "thumbnailUrl": "https://picsum.photos/seed/aimers8/600/800",
+    "thumbnailUrl": "/Hackathon1.png",
     "period": {
       "timezone": "Asia/Seoul",
       "submissionDeadlineAt": "2026-02-25T10:00:00+09:00",
@@ -29,7 +29,7 @@
       "GenAI",
       "Workflow"
     ],
-    "thumbnailUrl": "https://picsum.photos/seed/vibe202602/600/800",
+    "thumbnailUrl": "/Hackathon2.png",
     "period": {
       "timezone": "Asia/Seoul",
       "submissionDeadlineAt": "2026-03-03T10:00:00+09:00",
@@ -51,7 +51,7 @@
       "Vercel",
       "Handover"
     ],
-    "thumbnailUrl": "https://picsum.photos/seed/handover202603/600/800",
+    "thumbnailUrl": "/Hackathon3.png",
     "period": {
       "timezone": "Asia/Seoul",
       "submissionDeadlineAt": "2026-03-30T10:00:00+09:00",

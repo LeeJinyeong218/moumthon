@@ -12,12 +12,6 @@
     ],
     "myTeams": [
       {
-        "hackathonSlug": "monthly-vibe-coding-2026-02",
-        "teamCode": "T-BETA",
-        "teamName": "PromptRunners",
-        "role": "leader"
-      },
-      {
         "hackathonSlug": "daker-handover-2026-03",
         "teamCode": "T-HANDOVER-01",
         "teamName": "404found",
@@ -42,10 +36,19 @@
         "fromDisplayName": "Team Alpha 팀장",
         "status": "pending",
         "invitedAt": "2026-02-19T09:00:00+09:00"
+      },
+      {
+        "inviteId": "INV-002",
+        "hackathonSlug": "monthly-vibe-coding-2026-02",
+        "teamCode": "T-BETA",
+        "teamName": "PromptRunners",
+        "fromDisplayName": "박지연",
+        "status": "pending",
+        "invitedAt": "2026-04-05T14:00:00+09:00"
       }
     ],
     "notifications": {
-      "unreadCount": 2,
+      "unreadCount": 3,
       "listUrl": "/my/notifications"
     }
   }

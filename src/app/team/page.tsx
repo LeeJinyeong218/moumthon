@@ -1,18 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TeamCard } from "@/components/feature/team/TeamCard";
 import { MyTeamCard, MyTeam } from "@/components/feature/team/MyTeamCard";
 import teamsData from "@/assets/data/public_teams.json";
 import teamMembersData from "@/assets/data/public_team_members.json";
-
-import sessionData from "@/assets/data/my.json";
+import { createLocalStore } from "@/lib/storage";
+import { useMemberStore } from "@/stores/memberStore";
 
 type StatusFilter = "all" | "recruiting" | "closed";
 type TypeFilter = "all" | "hackathon" | "open";
 
-// JSON 타입 정의
 type RawTeam = {
   teamCode: string;
   hackathonSlug: string;
@@ -39,46 +38,111 @@ type RawTeamMembers = {
   members: RawMember[];
 };
 
+type MySessionTeam = {
+  hackathonSlug: string;
+  teamCode: string;
+  teamName: string;
+  role: string;
+};
+
+type MySession = {
+  userId: string;
+  myTeams: MySessionTeam[];
+  [key: string]: unknown;
+};
+
+// 멤버 조회 헬퍼
+function getMembersForTeam(teamCode: string) {
+  const found = (teamMembersData as RawTeamMembers[]).find(
+    (tm) => tm.teamCode === teamCode
+  );
+  return found?.members ?? [];
+}
+
+function buildMyTeam(teamCode: string): MyTeam {
+  const raw = (teamsData as RawTeam[]).find((t) => t.teamCode === teamCode);
+  // Also check localStorage teams store for newly created teams
+  const stored = createLocalStore<RawTeam>("teams", "teamCode").getById(teamCode).data;
+  const team = stored ?? raw;
+  const members = getMembersForTeam(teamCode);
+  return {
+    teamCode,
+    title: team?.name ?? teamCode,
+    description: team?.intro ?? "",
+    teamType: "hackathon" as const,
+    status: team?.isOpen ? ("recruiting" as const) : ("closed" as const),
+    positions: team?.lookingFor ?? [],
+    members: members.map((m) => ({
+      id: m.userId,
+      image: m.avatarUrl,
+      name: m.displayName,
+    })),
+    maxMembers: 5,
+    contactUrl: team?.contact?.url ?? "",
+  };
+}
+
 export default function TeamPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const router = useRouter();
+  const member = useMemberStore((s) => s.member);
 
-  const session = (sessionData as any[])[0];
-  const myTeamCodes = session?.myTeams?.map((t: any) => t.teamCode) ?? [];
+  const [myTeamCodes, setMyTeamCodes] = useState<string[]>([]);
+  const [myTeams, setMyTeams] = useState<MyTeam[]>([]);
 
-  // 멤버 조회 헬퍼
-  const getMembersForTeam = (teamCode: string) => {
-    const found = (teamMembersData as RawTeamMembers[]).find(
-      (tm) => tm.teamCode === teamCode
+  // Load myTeams from localStorage
+  useEffect(() => {
+    if (!member?.userId) {
+      setMyTeamCodes([]);
+      setMyTeams([]);
+      return;
+    }
+    const { data: session } = createLocalStore<MySession>("my", "userId").getById(member.userId);
+    const codes = session?.myTeams?.map((t) => t.teamCode) ?? [];
+    setMyTeamCodes(codes);
+    setMyTeams(codes.map(buildMyTeam));
+  }, [member?.userId]);
+
+  const handleUpdate = (teamCode: string, updated: Partial<MyTeam>) => {
+    const teamsStore = createLocalStore<RawTeam>("teams", "teamCode");
+    const patch: Partial<RawTeam> = {};
+    if (updated.status !== undefined) patch.isOpen = updated.status === "recruiting";
+    if (updated.title !== undefined) patch.name = updated.title;
+    if (updated.description !== undefined) patch.intro = updated.description;
+
+    const result = teamsStore.update(teamCode, patch);
+    if (result.error) {
+      // Not in localStorage yet — seed from static JSON then update
+      const raw = (teamsData as RawTeam[]).find((t) => t.teamCode === teamCode);
+      if (raw) {
+        teamsStore.create(raw);
+        teamsStore.update(teamCode, patch);
+      }
+    }
+    setMyTeams((prev) =>
+      prev.map((t) => (t.teamCode === teamCode ? { ...t, ...updated } : t))
     );
-    return found?.members ?? [];
   };
 
-  // 내 팀 목록 (session.myTeams 기준)
-  const myTeams: MyTeam[] = session?.myTeams?.map((myTeam: any) => {
-    const raw = (teamsData as RawTeam[]).find(
-      (t) => t.teamCode === myTeam.teamCode
-    );
-    const members = getMembersForTeam(myTeam.teamCode);
-    return {
-      teamCode: myTeam.teamCode,
-      title: raw?.name ?? myTeam.teamName,
-      description: raw?.intro ?? "",
-      teamType: "hackathon" as const,
-      status: raw?.isOpen ? ("recruiting" as const) : ("closed" as const),
-      positions: raw?.lookingFor ?? [],
-      members: members.map((m) => ({
-        id: m.userId,
-        image: m.avatarUrl,
-        name: m.displayName,
-      })),
-      maxMembers: 5,
-      contactUrl: raw?.contact?.url ?? "",
-    };
-  }) ?? [];
+  const handleDelete = (teamCode: string) => {
+    // Remove from teams store
+    createLocalStore<RawTeam>("teams", "teamCode").remove(teamCode);
+    // Remove from my session
+    if (member?.userId) {
+      const myStore = createLocalStore<MySession>("my", "userId");
+      const { data: session } = myStore.getById(member.userId);
+      if (session) {
+        myStore.update(member.userId, {
+          myTeams: session.myTeams.filter((t) => t.teamCode !== teamCode),
+        });
+      }
+    }
+    setMyTeamCodes((prev) => prev.filter((c) => c !== teamCode));
+    setMyTeams((prev) => prev.filter((t) => t.teamCode !== teamCode));
+  };
 
-  // 전체 팀 목록 (내 팀 제외)
+  // Other teams (excluding user's teams)
   const otherTeams = (teamsData as RawTeam[]).filter(
     (t) => !myTeamCodes.includes(t.teamCode)
   );
@@ -124,14 +188,8 @@ export default function TeamPage() {
                 <MyTeamCard
                   key={team.teamCode}
                   team={team}
-                  onUpdate={(updated) => {
-                    // TODO: API 연결
-                    console.log("update", updated);
-                  }}
-                  onDelete={() => {
-                    // TODO: API 연결
-                    console.log("delete", team.teamCode);
-                  }}
+                  onUpdate={(updated) => handleUpdate(team.teamCode, updated)}
+                  onDelete={() => handleDelete(team.teamCode)}
                 />
               ))}
             </div>

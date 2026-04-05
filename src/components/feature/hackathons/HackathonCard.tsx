@@ -66,10 +66,9 @@ export function HackathonCard({ hackathon, participantCount = 0 }: HackathonCard
           <StatusIcon size={11} />
           {STATUS_LABEL[hackathon.status]}
         </span>
-
-        {hackathon.status === "ongoing" && (
-          <span className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-500 to-green-400 px-3 py-1 text-sm font-bold text-white shadow-md">
-            {participantCount}명 참여중!
+        {(hackathon.status === "ongoing" || hackathon.status === "upcoming") && participantCount > 0 && (
+          <span className="inline-flex items-center rounded-lg bg-primary px-3 py-1 text-sm font-bold text-white shadow-md">
+            {participantCount}명 {hackathon.status === "ongoing" ? "참여중!" : "참여 준비중!"}
           </span>
         )}
 

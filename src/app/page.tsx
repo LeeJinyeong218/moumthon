@@ -37,8 +37,7 @@ export default function MainPage() {
           </p>
 
           <p className="max-w-lg text-base text-gray-500 leading-relaxed">
-            아이디어를 가진 개발자·디자이너·기획자가 모여
-            함께 만들고 성장하는 공간입니다.
+            아이디어를 가진 개발자·디자이너·기획자가 모여 함께 만들고 성장하는 공간입니다.
           </p>
         </div>
       </section>

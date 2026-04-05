@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+import confetti from "canvas-confetti"
 import { Upload, CheckCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { HackathonDetail } from "@/types/hackathonDetail"
@@ -95,7 +96,45 @@ export default function SubmitClient({ detail, slug, itemKey, hackathonStatus }:
   const [values, setValues] = useState<Record<string, string>>({})
   const setValue = (token: string, v: string) => setValues((prev) => ({ ...prev, [token]: v }))
   const [newScore, setNewScore] = useState<number | null>(null)
+  const [showCelebration, setShowCelebration] = useState(false)
   const [error, setError] = useState("")
+  const confettiCanvasRef = useRef<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    if (!showCelebration) return
+    if (!confettiCanvasRef.current) return
+
+    const colors = ["#22c55e", "#16a34a", "#0ea5e9", "#f59e0b", "#ef4444"]
+    const fire = confetti.create(confettiCanvasRef.current, { resize: true, useWorker: true })
+
+    const burst = (particleCount: number) => {
+      fire({
+        particleCount,
+        startVelocity: 45,
+        spread: 70,
+        angle: 60,
+        origin: { x: 0, y: 0.65 },
+        colors,
+      })
+      fire({
+        particleCount,
+        startVelocity: 45,
+        spread: 70,
+        angle: 120,
+        origin: { x: 1, y: 0.65 },
+        colors,
+      })
+    }
+
+    burst(32)
+    const endTimer = window.setTimeout(() => setShowCelebration(false), 380)
+
+    return () => {
+      window.clearTimeout(endTimer)
+    }
+  }, [showCelebration])
+
+  // 이미 제출된 항목인지 확인
   const [existingSubmission, setExistingSubmission] = useState<Submission | null | undefined>(undefined)
 
   useEffect(() => {
@@ -192,7 +231,9 @@ export default function SubmitClient({ detail, slug, itemKey, hackathonStatus }:
       ? mySession.mySubmissions.map((s) => s.hackathonSlug === slug ? { ...s, latestSubmissionId: submissionId, latestScore: simulatedScore } : s)
       : [...mySession.mySubmissions, { hackathonSlug: slug, teamCode: myTeam.teamCode, latestSubmissionId: submissionId, latestScore: simulatedScore }]
     myStore.update(member.userId, { mySubmissions: updatedSubmissions })
-    setNewScore(simulatedScore) 
+
+    setNewScore(simulatedScore)
+    setShowCelebration(true)
   }
 
   return (
@@ -234,11 +275,16 @@ export default function SubmitClient({ detail, slug, itemKey, hackathonStatus }:
             <p className="text-sm">진행 중인 해커톤에서만 제출할 수 있습니다.</p>
           </div>
         ) : submitted ? (
-          <div className="flex flex-col items-center gap-3 py-8 text-center">
-            <CheckCircle size={36} className="text-blue-500" />
+          <div className="relative overflow-visible rounded-lg flex flex-col items-center gap-3 py-8 text-center">
+            <canvas
+              ref={confettiCanvasRef}
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-x-10 -inset-y-6 h-[calc(100%+3rem)] w-[calc(100%+5rem)]"
+            />
+            <CheckCircle size={36} className="relative z-10 text-blue-500" />
             <p className="text-base font-semibold text-gray-800">제출이 완료되었습니다!</p>
             {displayScore != null && (
-              <p className="text-sm text-gray-500">
+              <p className="relative z-10 text-sm text-gray-500">
                 점수: <span className="font-mono font-semibold text-blue-600">
                   {displayScore < 1 ? displayScore.toFixed(4) : displayScore.toFixed(1)}
                 </span>점
@@ -246,7 +292,7 @@ export default function SubmitClient({ detail, slug, itemKey, hackathonStatus }:
             )}
             <button
               onClick={() => router.back()}
-              className="mt-2 rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              className="relative z-10 mt-2 rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
             >
               돌아가기
             </button>

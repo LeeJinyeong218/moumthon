@@ -9,7 +9,13 @@ import type { HackathonStatus } from "@/types/hackathon"
 import type { Team } from "@/types/team"
 import { useMemberStore } from "@/stores/memberStore"
 import { createLocalStore } from "@/lib/storage"
+import teamMembersData from "@/assets/data/public_team_members.json"
 import HackathonSectionHeading from "./HackathonSectionHeading"
+
+type TeamMemberEntry = { teamCode: string; hackathonSlug: string; members: { userId: string }[] }
+const memberCountMap: Record<string, number> = Object.fromEntries(
+  (teamMembersData as TeamMemberEntry[]).map((tm) => [tm.teamCode, tm.members.length])
+)
 
 interface Props {
   teamsSection: HackathonDetail["sections"]["teams"]
@@ -224,9 +230,9 @@ const HackathonTeamsSection = forwardRef<HTMLElement, Props>(({ teamsSection, te
         )}
 
         {/* 팀 목록 */}
-        {teams.length > 0 ? (
+        {teams.filter((t) => t.teamCode !== myTeam?.teamCode).length > 0 ? (
           <div className="grid grid-cols-2 gap-3">
-            {teams.map((team) => {
+            {teams.filter((t) => t.teamCode !== myTeam?.teamCode).map((team) => {
               const request = joinRequests.find((r) => r.teamCode === team.teamCode)
               const invite = receivedInvites.find((i) => i.teamCode === team.teamCode)
               const isMyTeam = myTeam?.teamCode === team.teamCode
@@ -263,7 +269,7 @@ const HackathonTeamsSection = forwardRef<HTMLElement, Props>(({ teamsSection, te
                   )}
 
                   <div className="flex items-center justify-between pt-1 border-t border-gray-100">
-                    <span className="text-xs text-gray-400">{team.memberCount}명</span>
+                    <span className="text-xs text-gray-400">{memberCountMap[team.teamCode] ?? team.memberCount}명</span>
 
                     {isMyTeam ? (
                       <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full">

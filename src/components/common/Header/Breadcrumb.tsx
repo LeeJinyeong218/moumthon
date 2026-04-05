@@ -5,6 +5,16 @@ export function Breadcrumb({ pathname }: { pathname: string }) {
     hackathons: "해커톤",
     team: "팀 구성",
     ranking: "랭킹",
+    rankings: "랭킹",
+    camp: "캠프",
+    submit: "제출",
+    idea: "아이디어",
+    prototype: "프로토타입",
+    plan: "기획서",
+    web: "웹링크",
+    pdf: "PDF 제출",
+    final: "최종",
+    default: "제출",
   };
 
   const prev = segments[segments.length - 2];
