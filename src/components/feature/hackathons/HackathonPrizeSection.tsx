@@ -13,15 +13,15 @@ const ICON_SIZES = ["text-6xl", "text-5xl", "text-4xl", "text-3xl"]
 const PLACE_SIZES = ["text-base", "text-sm", "text-xs", "text-xs"]
 const AMOUNT_SIZES = ["text-2xl", "text-xl", "text-base", "text-sm"]
 const STYLES = [
-  "bg-gradient-to-b from-yellow-400/20 to-yellow-400/5 border-yellow-300 text-yellow-700",
-  "bg-gradient-to-b from-zinc-200/40 to-zinc-200/10 border-zinc-300 text-zinc-600",
-  "bg-gradient-to-b from-orange-300/20 to-orange-300/5 border-orange-200 text-orange-600",
+  "bg-gradient-to-b from-yellow-400/30 via-yellow-300/20 to-yellow-200/10 border-yellow-300 text-yellow-800",
+  "bg-gradient-to-b from-sky-200/40 via-sky-100/20 to-sky-50/10 border-sky-300 text-sky-700",
+  "bg-gradient-to-b from-green-300/30 via-green-200/20 to-green-100/10 border-green-300 text-green-700",
 ]
 const PLACE_ICONS = ["🥇", "🥈", "🥉"]
 
 const HackathonPrizeSection = forwardRef<HTMLElement, Props>(({ prize }, ref) => {
   return (
-    <section ref={ref} id="prize">
+    <section ref={ref} id="prize" data-testid="hackathon-section-prize">
       <HackathonSectionHeading icon={Trophy}>상금</HackathonSectionHeading>
       <div className="flex items-end gap-3">
         {prize.items.slice(0, 3).map((item, i) => (

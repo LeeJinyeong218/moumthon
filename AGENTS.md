@@ -11,6 +11,7 @@ Next.js App Router, TypeScript, Tailwind CSS, @base-ui/react, class-variance-aut
 - Utility → `src/libs/<name>.ts`
 - Storage accessor → `src/libs/storage/<name>.ts`
 - Global state → `src/stores/<domain>Store.ts`
+- Playwright test → `e2e/<name>.spec.ts`
 
 ## Naming
 - Components: PascalCase
@@ -39,3 +40,6 @@ Next.js App Router, TypeScript, Tailwind CSS, @base-ui/react, class-variance-aut
 
 **초기 데이터 추가/수정이 필요한 경우**
 → read `docs/seed.md`
+
+**테스트를 작성하는 경우**
+→ read `docs/playwright.md`

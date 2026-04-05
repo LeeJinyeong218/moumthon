@@ -12,7 +12,7 @@ const allDetails: HackathonDetail[] = [
 ]
 
 const allLeaderboards: Leaderboard[] = [
-  { hackathonSlug: leaderboardData.hackathonSlug, updatedAt: leaderboardData.updatedAt, entries: leaderboardData.entries },
+  { hackathonSlug: leaderboardData.hackathonSlug, updatedAt: leaderboardData.updatedAt, entries: leaderboardData.entries as Leaderboard["entries"] },
   ...(leaderboardData.extraLeaderboards ?? []) as Leaderboard[],
 ]
 

@@ -29,12 +29,10 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
   const pathname = usePathname()
   const { activeSection, setActiveSection, requestScroll } = useHackathonDetailStore()
 
-  // Sync active section from pathname on mount / route change
   useEffect(() => {
     if (pathname.includes("/submit/")) {
       setActiveSection("submit")
     }
-    // scroll sections are managed by HackathonDetailClient via scroll detection
   }, [pathname, setActiveSection])
 
   const isDetailPage = !pathname.includes("/submit/")
@@ -68,7 +66,7 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
 
   return (
     <div className="relative w-44 shrink-0">
-      <div className="absolute left-0 top-1 bottom-1 w-px bg-border" />
+      <div className="absolute left-0 top-1 bottom-1 w-px bg-gray-100" />
 
       <nav className="flex flex-col gap-0.5">
         {scrollItems.map(({ id, label }) => {
@@ -78,14 +76,15 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
             return (
               <div key="submit" className="group/submit relative">
                 <button
+                  data-testid="hackathon-nav-submit-btn"
                   onClick={() => handleScrollSectionClick("submit")}
                   className={cn(
                     "w-full text-left pl-5 pr-3 py-2.5 text-sm font-medium transition-all duration-200 rounded-r-lg",
                     "inline-flex items-center justify-between gap-1",
-                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
                     isActive
-                      ? "translate-x-2 text-primary-600 bg-primary-50"
-                      : "text-muted-foreground hover:text-foreground hover:translate-x-1 hover:bg-muted/50",
+                      ? "translate-x-2 text-blue-600 bg-blue-50"
+                      : "text-gray-500 hover:text-gray-800 hover:translate-x-1 hover:bg-gray-50",
                   )}
                 >
                   {label}
@@ -98,21 +97,22 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
                   />
                 </button>
 
-                {/* Hover dropdown */}
                 <div
+                  data-testid="hackathon-nav-submit-dropdown"
                   className={cn(
                     "pointer-events-none opacity-0",
                     "group-hover/submit:pointer-events-auto group-hover/submit:opacity-100",
                     "transition-opacity duration-150",
                     "absolute left-full top-0 ml-2 min-w-[220px]",
-                    "bg-card border border-border rounded-lg shadow-lg z-20 py-1",
+                    "bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1",
                   )}
                 >
                   {submissionItems.map((item) => (
                     <button
                       key={item.key}
+                      data-testid={`hackathon-nav-submit-item-${item.key}`}
                       onClick={() => handleSubmitItemClick(item.key)}
-                      className="w-full text-left px-4 py-2.5 text-sm text-foreground hover:bg-muted/60 transition-colors"
+                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
                     >
                       {item.title}
                     </button>
@@ -125,13 +125,14 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
           return (
             <button
               key={id}
+              data-testid={`hackathon-nav-${id}-btn`}
               onClick={() => handleScrollSectionClick(id)}
               className={cn(
                 "text-left pl-5 pr-4 py-2.5 text-sm font-medium transition-all duration-200 rounded-r-lg",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
                 isActive
-                  ? "translate-x-2 text-primary-600 bg-primary-50"
-                  : "text-muted-foreground hover:text-foreground hover:translate-x-1 hover:bg-muted/50",
+                  ? "translate-x-2 text-blue-600 bg-blue-50"
+                  : "text-gray-500 hover:text-gray-800 hover:translate-x-1 hover:bg-gray-50",
               )}
             >
               {label}
@@ -139,15 +140,15 @@ export default function HackathonDetailNav({ slug, hasPrize, submissionItems }: 
           )
         })}
 
-        {/* 리더보드 */}
         <button
+          data-testid="hackathon-nav-leaderboard-btn"
           onClick={handleLeaderboardClick}
           className={cn(
             "text-left pl-5 pr-4 py-2.5 text-sm font-medium transition-all duration-200 rounded-r-lg",
-            "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300",
             activeSection === "leaderboard"
-              ? "translate-x-2 text-primary-600 bg-primary-50"
-              : "text-muted-foreground hover:text-foreground hover:translate-x-1 hover:bg-muted/50",
+              ? "translate-x-2 text-blue-600 bg-blue-50"
+              : "text-gray-500 hover:text-gray-800 hover:translate-x-1 hover:bg-gray-50",
           )}
         >
           리더보드

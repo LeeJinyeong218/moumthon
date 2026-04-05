@@ -184,6 +184,7 @@ export default function TeamPage() {
               return (
                 <TeamCard
                   key={team.teamCode}
+                  teamCode={team.teamCode}
                   title={team.name}
                   description={team.intro}
                   status={team.isOpen ? "recruiting" : "closed"}

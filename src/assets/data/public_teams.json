@@ -17,6 +17,20 @@
     "createdAt": "2026-02-20T11:00:00+09:00"
   },
   {
+    "teamCode": "T-DELTA",
+    "hackathonSlug": "aimers-8-model-lite",
+    "name": "Team Delta",
+    "isOpen": true,
+    "memberCount": 2,
+    "lookingFor": ["ML Engineer"],
+    "intro": "모델 경량화 첫 도전 팀입니다. 함께 배울 분 환영합니다.",
+    "contact": {
+      "type": "link",
+      "url": "https://open.kakao.com/o/example-delta"
+    },
+    "createdAt": "2026-02-21T10:00:00+09:00"
+  },
+  {
     "teamCode": "T-BETA",
     "hackathonSlug": "monthly-vibe-coding-2026-02",
     "name": "PromptRunners",

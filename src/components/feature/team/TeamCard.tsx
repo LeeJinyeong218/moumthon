@@ -8,6 +8,7 @@ interface Member {
 }
 
 interface TeamCardProps {
+  teamCode: string;
   title: string;
   description: string;
   status: "recruiting" | "closed";
@@ -38,6 +39,7 @@ function MessageModal({
       onClick={onClose}
     >
       <div
+        data-testid="camp-message-modal"
         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -59,6 +61,7 @@ function MessageModal({
         <div className="mb-5">
           <p className="mb-1.5 text-xs text-gray-400">메시지</p>
           <textarea
+            data-testid="camp-message-input"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="팀에게 보낼 메시지를 입력하세요."
@@ -70,12 +73,14 @@ function MessageModal({
 
         <div className="flex gap-2">
           <button
+            data-testid="camp-message-cancel-btn"
             onClick={onClose}
             className="flex-1 rounded-xl border border-gray-200 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
           >
             취소
           </button>
           <button
+            data-testid="camp-message-send-btn"
             onClick={handleSend}
             disabled={!message.trim()}
             className="flex-1 rounded-xl bg-gradient-to-r from-blue-500 to-green-400 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:opacity-40"
@@ -89,6 +94,7 @@ function MessageModal({
 }
 
 export function TeamCard({
+  teamCode,
   title,
   description,
   status,
@@ -105,7 +111,7 @@ export function TeamCard({
 
   return (
     <>
-      <div className="rounded-2xl border border-white/40 bg-white/60 p-5 backdrop-blur-md transition hover:-translate-y-1 hover:shadow-lg">
+      <div data-testid={`camp-team-card-${teamCode}`} className="rounded-2xl border border-white/40 bg-white/60 p-5 backdrop-blur-md transition hover:-translate-y-1 hover:shadow-lg">
 
         {/* 상단: 모집 여부 우측 정렬 */}
         <div className="mb-3 flex justify-end">
@@ -177,6 +183,7 @@ export function TeamCard({
         {/* 쪽지보내기 버튼 */}
         <div className="mt-4 border-t border-gray-100 pt-4">
           <button
+            data-testid={`camp-team-message-btn-${teamCode}`}
             onClick={() => setIsModalOpen(true)}
             disabled={status === "closed"}
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-blue-100 bg-blue-50 py-2 text-sm font-medium text-blue-500 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-50 disabled:text-gray-300"

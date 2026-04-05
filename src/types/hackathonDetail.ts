@@ -64,6 +64,7 @@ export type LeaderboardEntry = {
   score: number
   submittedAt: string
   scoreBreakdown?: Record<string, number>
+  status?: "no-submission"
 }
 
 export type Leaderboard = {

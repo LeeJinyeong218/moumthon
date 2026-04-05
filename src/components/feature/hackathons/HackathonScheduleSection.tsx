@@ -11,7 +11,7 @@ interface Props {
 
 const HackathonScheduleSection = forwardRef<HTMLElement, Props>(({ schedule }, ref) => {
   return (
-    <section ref={ref} id="schedule">
+    <section ref={ref} id="schedule" data-testid="hackathon-section-schedule">
       <HackathonSectionHeading icon={Clock}>일정</HackathonSectionHeading>
       <div className="space-y-0">
         {schedule.milestones.map((milestone, i) => {
@@ -19,12 +19,12 @@ const HackathonScheduleSection = forwardRef<HTMLElement, Props>(({ schedule }, r
           return (
             <div key={milestone.at} className="flex gap-4">
               <div className="flex flex-col items-center">
-                <div className="mt-1.5 w-2 h-2 rounded-full bg-primary-400 ring-2 ring-background shrink-0" />
-                {!isLast && <div className="w-px flex-1 bg-border mt-1" />}
+                <div className="mt-1.5 w-2 h-2 rounded-full bg-blue-400 ring-2 ring-white shrink-0" />
+                {!isLast && <div className="w-px flex-1 bg-gray-200 mt-1" />}
               </div>
               <div className={cn("flex-1 min-w-0", isLast ? "pb-0" : "pb-5")}>
-                <p className="text-sm font-medium text-foreground">{milestone.name}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <p className="text-sm font-medium text-gray-800">{milestone.name}</p>
+                <p className="text-xs text-gray-400 mt-0.5">
                   {formatDate(milestone.at, schedule.timezone)}
                 </p>
               </div>

@@ -35,6 +35,7 @@ function DeleteModal({
       onClick={onClose}
     >
       <div
+        data-testid="camp-delete-modal"
         className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -54,6 +55,7 @@ function DeleteModal({
             취소
           </button>
           <button
+            data-testid="camp-delete-modal-confirm-btn"
             onClick={onConfirm}
             className="flex-1 rounded-xl bg-red-500 py-2.5 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
           >
@@ -83,6 +85,7 @@ function EditModal({
       onClick={onClose}
     >
       <div
+        data-testid="camp-edit-modal"
         className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -94,6 +97,7 @@ function EditModal({
           <div>
             <label className="mb-1.5 block text-xs font-bold uppercase tracking-widest text-gray-500">팀명</label>
             <input
+              data-testid="camp-edit-modal-name-input"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -118,6 +122,7 @@ function EditModal({
             취소
           </button>
           <button
+            data-testid="camp-edit-modal-save-btn"
             onClick={() => { onSave({ title, description }); onClose(); }}
             className="flex-1 rounded-xl bg-gradient-to-r from-blue-500 to-green-400 py-2.5 text-sm font-bold text-white hover:opacity-90 transition-opacity"
           >
@@ -148,7 +153,7 @@ export function MyTeamCard({
 
   return (
     <>
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div data-testid={`camp-my-team-card-${team.teamCode}`} className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex flex-col gap-4">
 
           {/* 상단: 팀 정보 + 모집 토글 */}
@@ -172,6 +177,7 @@ export function MyTeamCard({
               <input
                 type="checkbox"
                 id={`toggle-${team.teamCode}`}
+                data-testid={`camp-my-team-status-toggle-${team.teamCode}`}
                 checked={isRecruiting}
                 onChange={() => onUpdate({ status: isRecruiting ? "closed" : "recruiting" })}
                 className="hidden"
@@ -245,6 +251,7 @@ export function MyTeamCard({
           {/* 하단: 수정/삭제 */}
           <div className="flex justify-end gap-2 border-t border-gray-100 pt-3">
             <button
+              data-testid={`camp-my-team-edit-btn-${team.teamCode}`}
               onClick={() => setShowEditModal(true)}
               className="flex items-center whitespace-nowrap gap-1.5 rounded-lg border border-gray-200 px-4 py-1.5 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
             >
@@ -254,6 +261,7 @@ export function MyTeamCard({
               수정
             </button>
             <button
+              data-testid={`camp-my-team-delete-btn-${team.teamCode}`}
               onClick={() => setShowDeleteModal(true)}
               className="flex items-center whitespace-nowrap gap-1.5 rounded-lg border border-red-200 px-4 py-1.5 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
             >

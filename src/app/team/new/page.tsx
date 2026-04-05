@@ -2,14 +2,11 @@
 
 import { useState, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
+import hackathonsData from "@/assets/data/public_hackathons.json";
 
 type TeamType = "hackathon" | "open";
 
-const HACKATHONS = [
-  "Aimers 8기 : 모델 경량화 온라인 해커톤",
-  "월간 해커톤 : 바이브 코딩 개선 AI 아이디어 공모전 (2026.02)",
-  "긴급 인수인계 해커톤: 명세서만 보고 구현하라",
-];
+const hackathons = (hackathonsData as { slug: string; title: string }[]).map((h) => h.title);
 
 function TagField({
   label,
@@ -154,7 +151,7 @@ export default function NewTeamPage() {
                     className={inputClass}
                   >
                     <option value="">해커톤을 선택하세요</option>
-                    {HACKATHONS.map((h) => (
+                    {hackathons.map((h) => (
                       <option key={h} value={h}>{h}</option>
                     ))}
                   </select>

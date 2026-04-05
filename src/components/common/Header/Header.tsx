@@ -103,7 +103,10 @@ export function Header() {
       <div className="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-4">
 
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-base font-semibold hover:text-primary">
+          <Link
+            href="/"
+            className="text-base font-semibold hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-400 hover:text-white transition-colors px-2 py-1 rounded-md"
+          >
             MoumThon
           </Link>
           {!isMain && <Breadcrumb pathname={pathname} />}
@@ -195,7 +198,11 @@ export function Header() {
                 )}
               </>
             ) : (
-              <Button size="sm" onClick={handleLogin}>
+              <Button
+                size="sm"
+                onClick={handleLogin}
+                className="bg-gradient-to-r from-blue-500 to-green-400 text-white hover:from-blue-600 hover:to-green-500 transition-colors"
+              >
                 로그인
               </Button>
             )}

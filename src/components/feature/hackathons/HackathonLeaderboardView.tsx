@@ -24,7 +24,7 @@ export default function HackathonLeaderboardView({ leaderboard, note, timezone }
               {formatDate(leaderboard.updatedAt, timezone)} 기준
             </span>
           </div>
-          <table className="w-full text-sm">
+          <table data-testid="hackathon-leaderboard-table" className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/10 text-xs text-muted-foreground uppercase tracking-wide">
                 <th className="text-center py-3 pl-5 pr-3 w-12">순위</th>
@@ -33,23 +33,40 @@ export default function HackathonLeaderboardView({ leaderboard, note, timezone }
               </tr>
             </thead>
             <tbody>
-              {leaderboard.entries.map((entry) => (
-                <tr
-                  key={entry.teamName}
-                  className={cn(
-                    "border-b border-border last:border-0",
-                    entry.rank <= 3 ? "bg-primary-50/50" : "hover:bg-muted/20",
-                  )}
-                >
-                  <td className="py-4 pl-5 pr-3 text-center">
-                    <RankBadge rank={entry.rank} />
-                  </td>
-                  <td className="py-4 px-3 font-medium">{entry.teamName}</td>
-                  <td className="py-4 pl-3 pr-5 text-right font-mono font-semibold text-primary-600">
-                    {entry.score < 1 ? entry.score.toFixed(4) : entry.score.toFixed(1)}
-                  </td>
-                </tr>
-              ))}
+              {leaderboard.entries.map((entry) => {
+                const rowKey = entry.teamName.toLowerCase().replace(/\s+/g, "-")
+                const isNoSubmission = entry.status === "no-submission"
+                return (
+                  <tr
+                    key={entry.teamName}
+                    data-testid={`hackathon-leaderboard-row-${rowKey}`}
+                    className={cn(
+                      "border-b border-border last:border-0",
+                      !isNoSubmission && entry.rank <= 3 ? "bg-primary-50/50" : "hover:bg-muted/20",
+                    )}
+                  >
+                    <td className="py-4 pl-5 pr-3 text-center">
+                      {isNoSubmission ? (
+                        <span className="text-xs text-muted-foreground">-</span>
+                      ) : (
+                        <RankBadge rank={entry.rank} />
+                      )}
+                    </td>
+                    <td className="py-4 px-3 font-medium">{entry.teamName}</td>
+                    <td className="py-4 pl-3 pr-5 text-right font-mono font-semibold">
+                      {isNoSubmission ? (
+                        <span data-testid={`hackathon-leaderboard-no-submission-${rowKey}`} className="text-xs text-muted-foreground">
+                          미제출
+                        </span>
+                      ) : (
+                        <span data-testid={`hackathon-leaderboard-score-${rowKey}`} className="text-primary-600">
+                          {entry.score < 1 ? entry.score.toFixed(4) : entry.score.toFixed(1)}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
