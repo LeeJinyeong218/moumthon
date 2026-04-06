@@ -2,31 +2,9 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import hackathonDetailData from "@/assets/data/public_hackathon_detail.json";
 import hackathonsData from "@/assets/data/public_hackathons.json";
-
-type HackathonDetail = { slug: string; sections: { overview: { teamPolicy: { maxTeamSize: number } } }; extraDetails?: HackathonDetail[] };
-
-function findMaxTeamSize(slug: string): number {
-  function search(detail: HackathonDetail): number | null {
-    if (detail.slug === slug) return detail.sections.overview.teamPolicy.maxTeamSize;
-    for (const extra of detail.extraDetails ?? []) {
-      const found = search(extra);
-      if (found !== null) return found;
-    }
-    return null;
-  }
-  return search(hackathonDetailData as HackathonDetail) ?? 20;
-}
-
-function isValidUrl(url: string): boolean {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-}
+import { isValidUrl } from "@/lib/validateUrl";
+import { findMaxTeamSize } from "@/lib/hackathonTeamSize";
 
 const hackathons = hackathonsData as { slug: string; title: string }[];
 

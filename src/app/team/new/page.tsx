@@ -3,10 +3,40 @@
 import { useState, KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import hackathonsData from "@/assets/data/public_hackathons.json";
+import myData from "@/assets/data/my.json";
+import { createLocalStore } from "@/lib/storage";
+import { useMemberStore } from "@/stores/memberStore";
+import { isValidUrl } from "@/lib/validateUrl";
+import { findMaxTeamSize } from "@/lib/hackathonTeamSize";
 
 type TeamType = "hackathon" | "open";
 
-const hackathons = (hackathonsData as { slug: string; title: string }[]).map((h) => h.title);
+type RawTeam = {
+  teamCode: string;
+  hackathonSlug: string;
+  name: string;
+  isOpen: boolean;
+  memberCount: number;
+  lookingFor: string[];
+  intro: string;
+  contact: { type: "link"; url: string };
+  createdAt: string;
+};
+
+type MySessionTeam = {
+  hackathonSlug: string;
+  teamCode: string;
+  teamName: string;
+  role: "leader" | "member";
+};
+
+type MySession = {
+  userId: string;
+  myTeams: MySessionTeam[];
+  [key: string]: unknown;
+};
+
+const hackathons = hackathonsData as { slug: string; title: string; status: string }[];
 
 function TagField({
   label,
@@ -73,21 +103,93 @@ function TagField({
 
 export default function NewTeamPage() {
   const router = useRouter();
+  const member = useMemberStore((s) => s.member);
 
   const [teamType, setTeamType] = useState<TeamType>("hackathon");
-  const [hackathon, setHackathon] = useState("");
+  const [hackathonSlug, setHackathonSlug] = useState("");
   const [teamName, setTeamName] = useState("");
   const [description, setDescription] = useState("");
   const [positions, setPositions] = useState<string[]>([]);
   const [stacks, setStacks] = useState<string[]>([]);
   const [contactLink, setContactLink] = useState("");
+  const [contactLinkError, setContactLinkError] = useState("");
   const [maxMembers, setMaxMembers] = useState(4);
+  const [maxMembersWarning, setMaxMembersWarning] = useState("");
+
+  const hackathonMaxSize = teamType === "hackathon" && hackathonSlug
+    ? findMaxTeamSize(hackathonSlug)
+    : 20;
+
+  const handleHackathonChange = (slug: string) => {
+    setHackathonSlug(slug);
+    if (slug) {
+      const limit = findMaxTeamSize(slug);
+      setMaxMembers((prev) => Math.min(prev, limit));
+    }
+    setMaxMembersWarning("");
+  };
+
+  const handleMaxMembersIncrease = () => {
+    if (maxMembers >= hackathonMaxSize) {
+      setMaxMembersWarning(`이 해커톤의 최대 팀원 수는 ${hackathonMaxSize}명입니다.`);
+      return;
+    }
+    setMaxMembersWarning("");
+    setMaxMembers((v) => v + 1);
+  };
+
+  const handleMaxMembersDecrease = () => {
+    setMaxMembersWarning("");
+    setMaxMembers((v) => Math.max(1, v - 1));
+  };
+
+  const handleContactLinkChange = (value: string) => {
+    setContactLink(value);
+    if (value && !isValidUrl(value)) {
+      setContactLinkError("올바른 URL 형식이 아닙니다. (예: https://...)");
+    } else {
+      setContactLinkError("");
+    }
+  };
 
   const handleSubmit = () => {
     if (!teamName.trim()) return alert("팀명을 입력해주세요.");
-    if (teamType === "hackathon" && !hackathon) return alert("참여할 해커톤을 선택해주세요.");
+    if (teamType === "hackathon" && !hackathonSlug) return alert("참여할 해커톤을 선택해주세요.");
     if (!contactLink.trim()) return alert("연락처 링크를 입력해주세요.");
-    alert("팀이 생성됐습니다!");
+    if (!isValidUrl(contactLink)) return;
+
+    const teamCode = `T-${Date.now()}`;
+    const teamsStore = createLocalStore<RawTeam>("teams", "teamCode");
+
+    const newTeam: RawTeam = {
+      teamCode,
+      hackathonSlug: teamType === "hackathon" ? hackathonSlug : "",
+      name: teamName.trim(),
+      isOpen: true,
+      memberCount: 1,
+      lookingFor: positions,
+      intro: description.trim(),
+      contact: { type: "link", url: contactLink.trim() },
+      createdAt: new Date().toISOString(),
+    };
+    teamsStore.create(newTeam);
+
+    const myStore = createLocalStore<MySession>("my", "userId");
+    myStore.seed(myData as unknown as MySession[]);
+
+    const userId = member?.userId ?? (myData as any[])[0]?.userId;
+    if (userId) {
+      const { data: session } = myStore.getById(userId);
+      if (session) {
+        myStore.update(userId, {
+          myTeams: [
+            ...session.myTeams,
+            { hackathonSlug: newTeam.hackathonSlug, teamCode, teamName: newTeam.name, role: "leader" },
+          ],
+        });
+      }
+    }
+
     router.push("/team");
   };
 
@@ -115,7 +217,7 @@ export default function NewTeamPage() {
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
-                onClick={() => { setTeamType("hackathon"); setHackathon(""); }}
+                onClick={() => { setTeamType("hackathon"); setHackathonSlug(""); }}
                 className={`flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-bold transition-all ${
                   teamType === "hackathon"
                     ? "border-blue-500 bg-blue-50 text-blue-700"
@@ -126,7 +228,7 @@ export default function NewTeamPage() {
               </button>
               <button
                 type="button"
-                onClick={() => { setTeamType("open"); setHackathon(""); }}
+                onClick={() => { setTeamType("open"); setHackathonSlug(""); }}
                 className={`flex items-center justify-center gap-2 rounded-xl border-2 py-3 text-sm font-bold transition-all ${
                   teamType === "open"
                     ? "border-amber-500 bg-amber-100 text-amber-700"
@@ -146,13 +248,15 @@ export default function NewTeamPage() {
                 <div>
                   <label className={labelClass}>참여 해커톤</label>
                   <select
-                    value={hackathon}
-                    onChange={(e) => setHackathon(e.target.value)}
+                    value={hackathonSlug}
+                    onChange={(e) => handleHackathonChange(e.target.value)}
                     className={inputClass}
                   >
                     <option value="">해커톤을 선택하세요</option>
                     {hackathons.map((h) => (
-                      <option key={h} value={h}>{h}</option>
+                      <option key={h.slug} value={h.slug} disabled={h.status === "ended"}>
+                        {h.title}{h.status === "ended" ? " (종료)" : ""}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -210,10 +314,13 @@ export default function NewTeamPage() {
             <input
               type="url"
               value={contactLink}
-              onChange={(e) => setContactLink(e.target.value)}
+              onChange={(e) => handleContactLinkChange(e.target.value)}
               placeholder="https://open.kakao.com/... 또는 https://forms.gle/..."
-              className={inputClass}
+              className={`${inputClass} ${contactLinkError ? "border-red-400 focus:border-red-400 focus:ring-red-200" : ""}`}
             />
+            {contactLinkError && (
+              <p className="mt-1 text-xs text-red-500">{contactLinkError}</p>
+            )}
           </div>
 
           {/* 5. 모집 인원 */}
@@ -227,7 +334,7 @@ export default function NewTeamPage() {
               <div className="flex items-center gap-4">
                 <button
                   type="button"
-                  onClick={() => setMaxMembers(Math.max(1, maxMembers - 1))}
+                  onClick={handleMaxMembersDecrease}
                   className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg font-semibold"
                 >
                   −
@@ -235,14 +342,21 @@ export default function NewTeamPage() {
                 <span className="w-8 text-center text-2xl font-bold text-gray-800">{maxMembers}</span>
                 <button
                   type="button"
-                  onClick={() => setMaxMembers(Math.min(20, maxMembers + 1))}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg font-semibold"
+                  onClick={handleMaxMembersIncrease}
+                  disabled={maxMembers >= hackathonMaxSize}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50 transition-colors text-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   +
                 </button>
                 <span className="text-sm font-medium text-gray-600">명</span>
               </div>
             </div>
+            {teamType === "hackathon" && hackathonSlug && (
+              <p className="mt-2 text-xs text-gray-400">최대 {hackathonMaxSize}명 (해커톤 제한)</p>
+            )}
+            {maxMembersWarning && (
+              <p className="mt-1 text-xs text-red-500">{maxMembersWarning}</p>
+            )}
           </div>
 
           {/* 6. 버튼 */}
